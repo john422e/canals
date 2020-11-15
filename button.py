@@ -11,7 +11,7 @@ def button_callback(channel, button_state):
         print("LIGHT OFF")
         button_state = "OFF"
 
-callback_lambda = lambda x: callback(x, button_state)
+callback_lambda = lambda x: button_callback(x, button_state)
 
 button_pin = 36
 

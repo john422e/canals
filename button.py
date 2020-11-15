@@ -23,6 +23,8 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM) # use physical pin numbers
 # set button_pin to be input and set inital value to be pulled low
 GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+# set LED output
+GPIO.setup(18, GPIO.OUT)
 # setup event on pin 10 rising edge
 GPIO.add_event_detect(button_pin, GPIO.RISING, callback=button_callback, bouncetime=200)
 

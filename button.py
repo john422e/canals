@@ -28,10 +28,10 @@ GPIO.setmode(GPIO.BCM) # use physical pin numbers
 # set button_pin to be input and set inital value to be pulled low
 GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 # set LED output
-#GPIO.setup(led_pin, GPIO.OUT)
+GPIO.setup(led_pin, GPIO.OUT)
 
 # start up sequence
-#GPIO.output(led_pin, GPIO.HIGH)
+GPIO.output(led_pin, GPIO.HIGH)
 #sleep(1)
 #GPIO.output(led_pin, GPIO.LOW)
 #sleep(1)

@@ -7,18 +7,20 @@ def button_callback(channel):
     global button_state
     if button_state == "OFF":
         print("LIGHT ON")
+        GPIO.output(18, GPIO.HIGH)
         button_state = "ON"
     else:
         print("LIGHT OFF")
+        GPIO.output(18, GPIO.LOW)
         button_state = "OFF"
 
 #callback_lambda = lambda x: button_callback(x, button_state)
 
-button_pin = 36
+button_pin = 16
 
 # initialize
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD) # use physical pin numbers
+GPIO.setmode(GPIO.BCM) # use physical pin numbers
 # set button_pin to be input and set inital value to be pulled low
 GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 # setup event on pin 10 rising edge

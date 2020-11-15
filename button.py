@@ -8,15 +8,15 @@ led_pin = 18
 def button_callback(channel):
     print("BUTTON PRESS")
     global button_state
-    #global led_pin
+    global led_pin
 
     if button_state == "OFF":
         print("LIGHT ON")
-        #GPIO.output(led_pin, GPIO.HIGH)
+        GPIO.output(led_pin, GPIO.HIGH)
         button_state = "ON"
     else:
         print("LIGHT OFF")
-        #GPIO.output(led_pin, GPIO.LOW)
+        GPIO.output(led_pin, GPIO.LOW)
         button_state = "OFF"
 
 #callback_lambda = lambda x: button_callback(x, button_state)
@@ -32,9 +32,9 @@ GPIO.setup(led_pin, GPIO.OUT)
 
 # start up sequence
 GPIO.output(led_pin, GPIO.HIGH)
-#sleep(1)
-#GPIO.output(led_pin, GPIO.LOW)
-#sleep(1)
+sleep(1)
+GPIO.output(led_pin, GPIO.LOW)
+sleep(1)
 
 # setup event on pin 10 rising edge
 GPIO.add_event_detect(button_pin, GPIO.RISING, callback=button_callback, bouncetime=200)

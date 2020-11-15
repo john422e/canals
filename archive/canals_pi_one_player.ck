@@ -50,6 +50,7 @@ times[index] => second_i; // sets second_i from index
 0.0 => float targetGain;
 0.0 => float gainPosition;
 0.005 => float gainInc;
+//
 
 // functions
 fun void fadeIn()
@@ -91,7 +92,20 @@ fun void get_reading()
                     //<<< "sound on!" >>>;
                     1 => soundOn;
                     clar_spkr_freqs[index-1] => s.freq;
-                    clar_amps[index-1] => targetGain; // index-1?
+                    if( clar_spkr_freqs[index-1] > 350)
+                    {
+                        clar_amps[index-1] * 0.8 => targetGain;
+                    }
+                    else if( clar_spkr_freqs[index-1] > 250 )
+                    {
+                        clar_amps[index-1] * 0.9 => targetGain;
+                    }
+                    
+                    
+                    
+                    
+                    
+                    //clar_amps[index-1] => targetGain; // index-1?
                     spork ~ fadeIn();
                 }
                 else

@@ -21,10 +21,6 @@ def button_callback(channel):
 
 #callback_lambda = lambda x: button_callback(x, button_state)
 
-GPIO.output(led_pin, GPIO.HIGH)
-sleep(1)
-GPIO.output(led_pin, GPIO.LOW)
-sleep(1)
 
 # initialize
 GPIO.setwarnings(False)
@@ -33,6 +29,13 @@ GPIO.setmode(GPIO.BCM) # use physical pin numbers
 GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 # set LED output
 GPIO.setup(led_pin, GPIO.OUT)
+
+# start up sequence
+GPIO.output(led_pin, GPIO.HIGH)
+sleep(1)
+GPIO.output(led_pin, GPIO.LOW)
+sleep(1)
+
 # setup event on pin 10 rising edge
 GPIO.add_event_detect(button_pin, GPIO.RISING, callback=button_callback, bouncetime=200)
 

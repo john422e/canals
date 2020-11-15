@@ -1,5 +1,7 @@
 import RPi.GPIO as GPIO
 
+button_state = "OFF"
+
 def button_callback(channel):
     print("BUTTON PRESS")
     if button_state == "OFF":
@@ -9,7 +11,7 @@ def button_callback(channel):
         print("LIGHT OFF")
         button_state = "OFF"
 
-button_state = "OFF"
+
 
 button_pin = 36
 

@@ -4,7 +4,7 @@ def button_callback(channel):
     print("BUTTON PRESS")
     if button_state == "OFF":
         print("LIGHT ON")
-        button_state = "ON")
+        button_state = "ON"
     else:
         print("LIGHT OFF")
         button_state = "OFF"

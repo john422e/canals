@@ -11,7 +11,7 @@ def button_callback(channel, button_state):
         print("LIGHT OFF")
         button_state = "OFF"
 
-
+callback_lambda = lambda x: callback(x, button_state)
 
 button_pin = 36
 
@@ -21,7 +21,7 @@ GPIO.setmode(GPIO.BOARD) # use physical pin numbers
 # set button_pin to be input and set inital value to be pulled low
 GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 # setup event on pin 10 rising edge
-GPIO.add_event_detect(button_pin, GPIO.RISING, callback=button_callback(button_state), bouncetime=200)
+GPIO.add_event_detect(button_pin, GPIO.RISING, callback=callback_lambda, bouncetime=200)
 
 message = input("Press enter to quit \n\n") # run until someone presses enter
 GPIO.cleanup() # cleanup

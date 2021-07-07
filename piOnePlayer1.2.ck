@@ -111,7 +111,7 @@ while( second_i <= end )
     if( times[index] == second_i ) // only gets triggered at each timing interval
     {
         clar_spkr_freqs[index] => s.freq;
-        <<< "Time: ", times[index], "Freq:", clar_spkr_freqs[index], "Target Gain:", clar_amps[index] >>>;
+        <<< "Time: ", times[index], "Freq:", clar_spkr_freqs[index] >>>;
         if( index < times.cap()-1 )
         {
             index++;

@@ -59,7 +59,7 @@ for( 0 => int i; i < countDown; i++ ) {
 
 0 => int index; // freq array index
 0 => int soundOn; // switch for sound (0 or 1)
-15.0 => float thresh; // distance threshold (lower than values trigger sound)
+25.0 => float thresh; // distance threshold (lower than values trigger sound)
 
 // adjust starting position if command line argument present
 Std.atoi(me.arg(0)) => index; // user provides section number (same as index value)

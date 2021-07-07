@@ -84,7 +84,7 @@ fun void get_reading()
                     //<<< "sound on!" >>>;
                     1 => soundOn;
                     clar_spkr_freqs[index-1] => s.freq;
-                    (1 / ( msg.getFloat(0) / 2 )) => e.target; // testing
+                    (1 / ( (msg.getFloat(0)-4) / 2 )) => e.target; // testing
                     spork ~ e.keyOn();
                 }
                 else

@@ -2,10 +2,11 @@
 // John Eagle
 // 9.25.19
 // for canals, Unheard-of//Ensemble
+// updated 7.8.21 for Brightwork recording
 
-// pi one, clarinet
+// piOne, clarinet
 
-0 => int laptop; // if 1, then sensor won't control amp. all tones will play all the time
+0 => int laptop; // NOT IMPLEMENTED YET: if 1, then sensor won't control amp. all tones will play all the time
 
 
 // osc
@@ -18,7 +19,7 @@ in.listenAll();
 SinOsc s => Envelope e => LPF f => dac;
 
 // because of distortion 
-//dac.gain(0.9); // is this too high?
+dac.gain(0.9); // is this too high?
 
 // setup filters
 500 => f.freq;
@@ -52,6 +53,10 @@ for( 0 => int i; i < countDown; i++ ) {
 // clarinet amplitude array
 //[0.0,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9, 0.0,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9,    0.9, 0.0] @=> float clar_amps[];
 
+
+
+
+
 // time variables
 0 => int second_i; // current second
 0 => int displayMinute => int displaySecond; // for display
@@ -60,6 +65,7 @@ for( 0 => int i; i < countDown; i++ ) {
 0 => int index; // freq array index
 0 => int soundOn; // switch for sound (0 or 1)
 25.0 => float thresh; // distance threshold (lower than values trigger sound)
+//30.0 => float thresh2; not used for piOne
 
 // adjust starting position if command line argument present
 Std.atoi(me.arg(0)) => index; // user provides section number (same as index value)
@@ -78,7 +84,7 @@ fun void get_reading()
             if( msg.address == "/distance" )
             {
                 <<< "/distance", msg.getFloat(0) >>>;
-                // turn on sound if value below thresh
+                // turn on sound if value below thresh and get primary tone
                 if ( msg.getFloat(0) < thresh && msg.getFloat(0) > 0.0)
                 {
                     //<<< "sound on!" >>>;
@@ -87,7 +93,19 @@ fun void get_reading()
                     (1 / ( (msg.getFloat(0)-3) / 2 )) => e.target; // testing
                     spork ~ e.keyOn();
                 }
-                else
+                // else if further away get secondary tone // NOT USED FOR piONE
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                else // no sound
                 {
                     0 => soundOn;
                     spork ~ e.keyOff();

@@ -66,6 +66,7 @@ for( 0 => int i; i < countDown; i++ ) {
 0 => int soundOn; // switch for sound (0 or 1)
 15.0 => float thresh; // distance threshold (lower than values trigger sound)
 30.0 => float thresh2;
+3.0 => float distOffset;
 
 // adjust starting position if command line argument present
 Std.atoi(me.arg(0)) => index; // user provides section number (same as index value)
@@ -90,7 +91,7 @@ fun void get_reading()
                     //<<< "sound on!" >>>;
                     1 => soundOn;
                     vln_spkr_freqs1[index-1] => s.freq;
-                    (1 / ( (msg.getFloat(0)-3) / 2 )) => e.target; // testing
+                    (1 / ( (msg.getFloat(0)-distOffset) / 2 )) => e.target; // testing
                     spork ~ e.keyOn();
                 }
                 // else if further away get secondary tone
@@ -101,7 +102,7 @@ fun void get_reading()
                         //<<< "sound on!" >>>;
                         1 => soundOn;
                         vln_spkr_freqs2[index-1] => s.freq;
-                        (1 / ( (msg.getFloat(0)-18) / 2 )) => e.target; // testing
+                        (1 / ( (msg.getFloat(0)-distOffset-15) / 2 )) => e.target; // testing
                         spork ~ e.keyOn();
                     }
                 }

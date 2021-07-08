@@ -19,7 +19,7 @@ in.listenAll();
 SinOsc s => Envelope e => LPF f => dac;
 
 // because of distortion 
-dac.gain(0.9); // is this too high?
+//dac.gain(0.9); // is this too high?
 
 // setup filters
 500 => f.freq;

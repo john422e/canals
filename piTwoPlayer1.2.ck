@@ -109,7 +109,7 @@ fun void get_reading()
                 else // no sound
                 {
                     0 => soundOn;
-                    spork ~ e.keyOff;
+                    spork ~ e.keyOff();
                 }
             }
         }

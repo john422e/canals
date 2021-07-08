@@ -66,7 +66,7 @@ for( 0 => int i; i < countDown; i++ ) {
 0 => int soundOn; // switch for sound (0 or 1)
 25.0 => float thresh; // distance threshold (lower than values trigger sound)
 //30.0 => float thresh2; not used for piOne
-9.0 => float distOffset;
+3.0 => float distOffset;
 
 // adjust starting position if command line argument present
 Std.atoi(me.arg(0)) => index; // user provides section number (same as index value)

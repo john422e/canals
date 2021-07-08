@@ -97,7 +97,7 @@ fun void get_reading()
                 // else if further away get secondary tone
                 else if ( msg.getFloat(0) < thresh2 && msg.getFloat(0) > 0.0)
                 { // only evaluate if freqs are not the same
-                    if ( vln_spkr_freq1[index-1] != vln_spkr_freqs2[index-1] ) 
+                    if ( vln_spkr_freqs1[index-1] != vln_spkr_freqs2[index-1] ) 
                     {
                         //<<< "sound on!" >>>;
                         1 => soundOn;

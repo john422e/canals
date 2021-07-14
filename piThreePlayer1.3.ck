@@ -69,7 +69,7 @@ for( 0 => int i; i < countDown; i++ ) {
 0 => int soundOn; // switch for sound (0 or 1)
 15.0 => float thresh; // distance threshold (lower than values trigger sound)
 30.0 => float thresh2;
-3.0 => float distOffset;
+5.0 => float distOffset;
 float dist;
 float amp;
 

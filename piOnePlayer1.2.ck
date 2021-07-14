@@ -27,6 +27,8 @@ SinOsc s => Envelope e => LPF f => dac;
 
 // initialize volume
 0 => s.gain;
+// initialize envelope ramp time
+1.0 => e.time;
 
 // startup sound
 5 => int countDown;

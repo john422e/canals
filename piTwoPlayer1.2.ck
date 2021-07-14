@@ -41,6 +41,9 @@ for( 0 => int i; i < countDown; i++ ) {
 }
 1.0 => s.gain;
 
+// initialize envelope ramp time
+1.0 => e.time;
+
 // GLOBAL VARIABLES
 
 // timing array
@@ -67,6 +70,7 @@ for( 0 => int i; i < countDown; i++ ) {
 15.0 => float thresh; // distance threshold (lower than values trigger sound)
 30.0 => float thresh2;
 3.0 => float distOffset;
+float dist;
 
 // adjust starting position if command line argument present
 Std.atoi(me.arg(0)) => index; // user provides section number (same as index value)
@@ -84,25 +88,27 @@ fun void get_reading()
             // ultrasonic sensor distance
             if( msg.address == "/distance" )
             {
-                <<< "/distance", msg.getFloat(0) >>>;
+                msg.getFloat(0) => dist;
+                <<< "/distance", dist >>>;
                 // turn on sound if value below thresh and get primary tone
-                if ( msg.getFloat(0) < thresh && msg.getFloat(0) > 0.0)
+                if ( dist < thresh && dist > 0.0)
                 {
                     //<<< "sound on!" >>>;
                     1 => soundOn;
                     vln_spkr_freqs1[index-1] => s.freq;
-                    (1 / ( (msg.getFloat(0)-distOffset) / 2 )) => e.target; // testing
+                    (1 / ( (dist-distOffset) / 2 )) => e.target; // testing
                     spork ~ e.keyOn();
                 }
                 // else if further away get secondary tone
-                else if ( msg.getFloat(0) < thresh2 && msg.getFloat(0) > 0.0)
+                else if ( dist < thresh2 && dist > thresh)
                 { // only evaluate if freqs are not the same
                     if ( vln_spkr_freqs1[index-1] != vln_spkr_freqs2[index-1] ) 
                     {
                         //<<< "sound on!" >>>;
                         1 => soundOn;
                         vln_spkr_freqs2[index-1] => s.freq;
-                        (1 / ( (msg.getFloat(0)-distOffset-15) / 2 )) => e.target; // testing
+                        ( (1/dist) - (1/thresh) ) / ( (1/thresh2) - (1/thresh) ) => e.target;
+                        //(1 / ( (msg.getFloat(0)-distOffset-15) / 2 )) => e.target; // testing
                         spork ~ e.keyOn();
                     }
                 }

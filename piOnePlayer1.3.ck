@@ -98,7 +98,7 @@ fun void get_reading()
                     1 => soundOn;
                     clar_spkr_freqs[index-1] => s.freq;
                     (1 / ( (dist-distOffset) / 2 )) => amp; // testing
-                    Std.abs(amp) => amp;
+                    Std.fabs(amp) => amp;
                     if( amp > 1.0 ) 1.0 => amp;
                     <<< amp >>>;
                     amp => e.target;

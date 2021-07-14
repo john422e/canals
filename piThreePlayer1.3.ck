@@ -98,6 +98,7 @@ fun void get_reading()
                     1 => soundOn;
                     cello_spkr_freqs1[index-1] => s.freq;
                     (1 / ( (dist-distOffset) / 2 )) => amp; // testing
+                    <<< amp >>>;
                     amp => e.target;            
                     spork ~ e.keyOn();
                 }
@@ -109,7 +110,8 @@ fun void get_reading()
                         //<<< "sound on!" >>>;
                         1 => soundOn;
                         cello_spkr_freqs2[index-1] => s.freq;
-                        ( (1/dist) - (1/thresh) ) / ( (1/thresh2) - (1/thresh) ) => amp; // testing      
+                        ( (1/dist) - (1/thresh) ) / ( (1/thresh2) - (1/thresh) ) => amp; // testing
+                        <<< amp >>>;    
                         amp => e.target;         
                         spork ~ e.keyOn();
                     }

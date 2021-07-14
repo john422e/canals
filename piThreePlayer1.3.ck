@@ -1,4 +1,4 @@
-// pi_two_player.ck
+// pi_three_player.ck
 // John Eagle
 // 9.25.19
 // for canals, Unheard-of//Ensemble
@@ -16,8 +16,7 @@ OscMsg msg;
 in.listenAll();
 
 // sound network
-LPF f;
-SinOsc s => Envelope e => dac;//LPF f => dac;
+SinOsc s => Envelope e => LPF f => dac;
 
 // because of distortion 
 //dac.gain(0.9); // is this too high?
@@ -41,6 +40,9 @@ for( 0 => int i; i < countDown; i++ ) {
     0.5::second => now;
 }
 1.0 => s.gain;
+
+// initialize envelope ramp time
+0.7 => e.time;
 
 // GLOBAL VARIABLES
 
@@ -67,8 +69,9 @@ for( 0 => int i; i < countDown; i++ ) {
 0 => int soundOn; // switch for sound (0 or 1)
 15.0 => float thresh; // distance threshold (lower than values trigger sound)
 30.0 => float thresh2;
-5.0 => float distOffset;
-0.0 => float amp;
+3.0 => float distOffset;
+float dist;
+float amp;
 
 // adjust starting position if command line argument present
 Std.atoi(me.arg(0)) => index; // user provides section number (same as index value)
@@ -86,30 +89,28 @@ fun void get_reading()
             // ultrasonic sensor distance
             if( msg.address == "/distance" )
             {
-                //<<< "/distance", msg.getFloat(0) >>>;
+		msg.getFloat(0) => dist;
+                //<<< "/distance", dist >>>;
                 // turn on sound if value below thresh
-                if ( msg.getFloat(0) < thresh && msg.getFloat(0) > 0.0)
+                if ( dist < thresh && dist > 0.0)
                 {
                     //<<< "sound on!" >>>;
                     1 => soundOn;
                     cello_spkr_freqs1[index-1] => s.freq;
-                    (1 / ( (msg.getFloat(0)-distOffset) / 2 )) => amp;
-                    amp => e.target; // testing
-                    <<< amp >>>;
+                    (1 / ( (dist-distOffset) / 2 )) => amp; // testing
+                    amp => e.target;            
                     spork ~ e.keyOn();
                 }
                 // else if further away get secondary tone
-                else if ( msg.getFloat(0) < thresh2 && msg.getFloat(0) > 0.0)
+                else if ( dist < thresh2 && dist > thresh)
                 { // only evaluate if freqs are not the same
                     if( cello_spkr_freqs1[index-1] != cello_spkr_freqs2[index-1] )
                     {
                         //<<< "sound on!" >>>;
                         1 => soundOn;
                         cello_spkr_freqs2[index-1] => s.freq;
-                        ( (1/dist) - (1/thresh) ) / ( (1/thresh2) - (1/thresh) ) => amp;      
-                        //(1 / ( (msg.getFloat(0)-distOffset-15) / 2 )) => e.target; // testing
-                        amp => e.target;
-                        <<< amp >>>;        
+                        ( (1/dist) - (1/thresh) ) / ( (1/thresh2) - (1/thresh) ) => amp; // testing      
+                        amp => e.target;         
                         spork ~ e.keyOn();
                     }
                 }   

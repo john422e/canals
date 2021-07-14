@@ -42,7 +42,7 @@ for( 0 => int i; i < countDown; i++ ) {
 1.0 => s.gain;
 
 // initialize envelope ramp time
-0.7 => e.time;
+0.5 => e.time;
 
 // GLOBAL VARIABLES
 

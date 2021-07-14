@@ -17,7 +17,7 @@ in.listenAll();
 
 // sound network
 LPF f;
-SinOsc s => Envelope e => dac;//LPF f => dac;
+TriOsc s => Envelope e => dac;//LPF f => dac;
 
 // because of distortion 
 //dac.gain(0.9); // is this too high?

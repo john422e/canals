@@ -42,7 +42,7 @@ for( 0 => int i; i < countDown; i++ ) {
 1.0 => s.gain;
 
 // initialize envelope ramp time
-1.0 => e.time;
+0.7 => e.time;
 
 // GLOBAL VARIABLES
 
@@ -54,9 +54,9 @@ for( 0 => int i; i < countDown; i++ ) {
 // violin secondary
 [0.0, 270.03, 358.63, 259.07, 353.90, 364.53, 337.40, 250.43, 200.63, 337.6, 218.87, 249.97, 313.33, 0.0, 238.17, 303.90, 412.07, 280.97, 272.43, 270.23, 263.13, 300.57, 266.07, 211.10, 251.30, 331.13, 303.47, 225.50, 303.17, 226.20, 253.37, 257.80, 501.97, 488.37, 241.03, 375.17, 221.93, 0.0] @=> float vln_freqs2[];
 // violin speaker freq array
-[0.0, 154.33, 179.67, 145.73, 196.63, 130.27, 168.57, 172.20, 100.47, 157.97, 164.30, 208.20, 125.17, 0.0, 173.23, 216.93, 274.50, 140.37, 190.63, 202.80, 230.30, 150.47, 133.00, 153.60, 125.53, 165.53, 252.87, 197.40, 265.17, 113.03, 168.93, 223.43, 143.50, 195.30, 144.67, 214.40, 197.43, 0.0] @=> float vln_spkr_freqs1[];
+[100.0, 154.33, 179.67, 145.73, 196.63, 130.27, 168.57, 172.20, 100.47, 157.97, 164.30, 208.20, 125.17, 0.0, 173.23, 216.93, 274.50, 140.37, 190.63, 202.80, 230.30, 150.47, 133.00, 153.60, 125.53, 165.53, 252.87, 197.40, 265.17, 113.03, 168.93, 223.43, 143.50, 195.30, 144.67, 214.40, 197.43, 0.0] @=> float vln_spkr_freqs1[];
 // violin speaker secondary
-[0.0, 154.33, 179.67, 145.73, 196.63, 130.27, 168.57, 172.20, 100.47, 169.03, 164.30, 208.20, 125.17, 0.0, 173.23, 216.93, 274.50, 140.37, 190.63, 202.80, 230.30, 150.47, 133.00, 153.60, 125.53, 165.53, 252.87, 197.40, 265.17, 113.03, 168.93, 223.43, 143.50, 195.30, 144.67, 214.40, 197.43, 0.0] @=> float vln_spkr_freqs2[];
+[200.0, 154.33, 179.67, 145.73, 196.63, 130.27, 168.57, 172.20, 100.47, 169.03, 164.30, 208.20, 125.17, 0.0, 173.23, 216.93, 274.50, 140.37, 190.63, 202.80, 230.30, 150.47, 133.00, 153.60, 125.53, 165.53, 252.87, 197.40, 265.17, 113.03, 168.93, 223.43, 143.50, 195.30, 144.67, 214.40, 197.43, 0.0] @=> float vln_spkr_freqs2[];
 // violin amplitude array
 //[0.0,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7, 0.0,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7,    0.7, 0.0] @=> float vln_amps[];
 
@@ -69,8 +69,9 @@ for( 0 => int i; i < countDown; i++ ) {
 0 => int soundOn; // switch for sound (0 or 1)
 15.0 => float thresh; // distance threshold (lower than values trigger sound)
 30.0 => float thresh2;
-3.0 => float distOffset;
+5.0 => float distOffset;
 float dist;
+float amp;
 
 // adjust starting position if command line argument present
 Std.atoi(me.arg(0)) => index; // user provides section number (same as index value)
@@ -89,14 +90,17 @@ fun void get_reading()
             if( msg.address == "/distance" )
             {
 		msg.getFloat(0) => dist;
-                <<< "/distance", dist >>>;
+                //<<< "/distance", dist >>>;
                 // turn on sound if value below thresh and get primary tone
                 if ( dist < thresh && dist > 0.0)
                 {
                     //<<< "sound on!" >>>;
                     1 => soundOn;
                     vln_spkr_freqs1[index-1] => s.freq;
-                    (1 / ( (dist-distOffset) / 2 )) => e.target; // testing
+                    (1 / ( (dist-distOffset) / 2 )) => amp; // testing
+                    if( amp > 1.0 ) 1.0 => amp;
+                    <<< amp >>>;
+                    amp => e.target;
                     spork ~ e.keyOn();
                 }
                 // else if further away get secondary tone
@@ -107,8 +111,10 @@ fun void get_reading()
                         //<<< "sound on!" >>>;
                         1 => soundOn;
                         vln_spkr_freqs2[index-1] => s.freq;
-			( (1/dist) - (1/thresh) ) / ( (1/thresh2) - (1/thresh) ) => e.target;
-                        //(1 / ( (msg.getFloat(0)-distOffset-15) / 2 )) => e.target; // testing
+                        ( (1/dist) - (1/thresh) ) / ( (1/thresh2) - (1/thresh) ) => amp; // testing
+                        if( amp > 1.0 ) 1.0 => amp;
+                        <<< amp >>>;
+                        amp => e.target;
                         spork ~ e.keyOn();
                     }
                 }
@@ -143,7 +149,7 @@ while( second_i <= end )
             index++;
         }
     }
-    <<< "Time:", displayMinute, displaySecond, "Index:", index, "Sound on: ", soundOn , vln_spkr_freqs1[index-1] >>>;
+    //<<< "Time:", displayMinute, displaySecond, "Index:", index, "Sound on: ", soundOn , vln_spkr_freqs1[index-1] >>>;
     
     
     // now advance time

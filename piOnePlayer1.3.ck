@@ -42,7 +42,7 @@ for( 0 => int i; i < countDown; i++ ) {
 1.0 => s.gain;
 
 // initialize envelope ramp time
-1.0 => e.time;
+0.7 => e.time;
 
 // GLOBAL VARIABLES
 
@@ -71,6 +71,7 @@ for( 0 => int i; i < countDown; i++ ) {
 //30.0 => float thresh2; not used for piOne
 3.0 => float distOffset;
 float dist;
+float amp;
 
 // adjust starting position if command line argument present
 Std.atoi(me.arg(0)) => index; // user provides section number (same as index value)
@@ -89,14 +90,17 @@ fun void get_reading()
             if( msg.address == "/distance" )
             {
 		msg.getFloat(0) => dist;
-                <<< "/distance", dist >>>;
+                //<<< "/distance", dist >>>;
                 // turn on sound if value below thresh and get primary tone
                 if ( dist < thresh && dist > 0.0)
                 {
                     //<<< "sound on!" >>>;
                     1 => soundOn;
                     clar_spkr_freqs[index-1] => s.freq;
-                    (1 / ( (dist-distOffset) / 2 )) => e.target; // testing
+                    (1 / ( (dist-distOffset) / 2 )) => amp; // testing
+                    if( amp > 1.0 ) 1.0 => amp;
+                    <<< amp >>>;
+                    amp => e.target;
                     spork ~ e.keyOn();
                 }
                 // else if further away get secondary tone // NOT USED FOR piONE
@@ -109,6 +113,9 @@ fun void get_reading()
                 
                 
                 
+             
+             
+             
                 
                 
                 else // no sound
@@ -142,7 +149,7 @@ while( second_i <= end )
             index++;
         }
     }
-    <<< "Time:", displayMinute, displaySecond, "Index:", index, "Sound on: ", soundOn , clar_spkr_freqs[index-1] >>>;
+    //<<< "Time:", displayMinute, displaySecond, "Index:", index, "Sound on: ", soundOn , clar_spkr_freqs[index-1] >>>;
     
     
     // now advance time

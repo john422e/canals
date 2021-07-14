@@ -98,6 +98,7 @@ fun void get_reading()
                     1 => soundOn;
                     cello_spkr_freqs1[index-1] => s.freq;
                     (1 / ( (dist-distOffset) / 2 )) => amp; // testing
+                    Std(amp) => amp;
                     if( amp > 1.0 ) 1.0 => amp;
                     <<< amp >>>;
                     amp => e.target;            
@@ -112,6 +113,7 @@ fun void get_reading()
                         1 => soundOn;
                         cello_spkr_freqs2[index-1] => s.freq;
                         ( (1/dist) - (1/thresh) ) / ( (1/thresh2) - (1/thresh) ) => amp; // testing
+                        Std(amp) => amp;
                         if( amp > 1.0 ) 1.0 => amp;
                         <<< amp >>>;    
                         amp => e.target;         

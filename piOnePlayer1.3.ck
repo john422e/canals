@@ -98,12 +98,14 @@ fun void get_reading()
                     1 => soundOn;
                     clar_spkr_freqs[index-1] => s.freq;
                     (1 / ( (dist-distOffset) / 2 )) => amp; // testing
+                    Std(amp) => amp;
                     if( amp > 1.0 ) 1.0 => amp;
                     <<< amp >>>;
                     amp => e.target;
                     spork ~ e.keyOn();
                 }
                 // else if further away get secondary tone // NOT USED FOR piONE
+                
                 
                 
                 

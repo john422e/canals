@@ -16,7 +16,8 @@ OscMsg msg;
 in.listenAll();
 
 // sound network
-SinOsc s => Envelope e => LPF f => dac;
+LPF f;
+SinOsc s => Envelope e => dac;//LPF f => dac;
 
 // because of distortion 
 //dac.gain(0.9); // is this too high?
@@ -137,7 +138,7 @@ while( second_i <= end )
             index++;
         }
     }
-    <<< "Time:", displayMinute, displaySecond, "Index:", index, "Sound on: ", soundOn , cello_spkr_freqs1[index-1] >>>;
+    //<<< "Time:", displayMinute, displaySecond, "Index:", index, "Sound on: ", soundOn , cello_spkr_freqs1[index-1] >>>;
     
     
     // now advance time

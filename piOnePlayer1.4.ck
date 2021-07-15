@@ -119,7 +119,7 @@ fun void get_reading()
                     //<<< "sound on!" >>>;
                     1 => soundOn;
                     clar_spkr_freqs[index-1] => s.freq;
-                    normalize(dist, distOffset, thresh) => amp;
+                    normalize(dist, thresh, distOffset) => amp;
                     //(1 / ( (dist-distOffset) / 2 )) => amp; // testing
                     //Std.fabs(amp) => amp;
                     //if( amp > 1.0 ) 1.0 => amp;

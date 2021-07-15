@@ -119,7 +119,7 @@ fun void get_reading()
                     //<<< "sound on!" >>>;
                     1 => soundOn;
                     vln_spkr_freqs1[index-1] => s.freq;
-                    normalize(dist, distOffset, thresh) => amp;
+                    normalize(dist, thresh, distOffset) => amp;
                     //(1 / ( (dist-distOffset) / 2 )) => amp; // testing
                     //Std.fabs(amp) => amp;
                     //if( amp > 1.0 ) 1.0 => amp;
@@ -135,7 +135,7 @@ fun void get_reading()
                         //<<< "sound on!" >>>;
                         1 => soundOn;
                         vln_spkr_freqs2[index-1] => s.freq;
-                        normalize(dist, thresh2, thresh) => amp;
+                        normalize(dist, thresh, thresh2) => amp;
                         //( (1/dist) - (1/thresh) ) / ( (1/thresh2) - (1/thresh) ) => amp; // testing
                         //Std.fabs(amp) => amp;
                         //if( amp > 1.0 ) 1.0 => amp;
